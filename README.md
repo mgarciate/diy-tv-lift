@@ -1,1 +1,2 @@
 # diy-tv-lift
+Using an Arduino UNO, activate a servo motor via a switch to raise/lower a TV. The motion stops when the limit switch is triggered, ensuring safe operation. The motor drive manages the servo's power and movement direction.
