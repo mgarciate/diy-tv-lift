@@ -3,6 +3,11 @@
 
 const long INTERVAL_MOTORB = 10000;
 
+const int DEFAULT_SPEED_MOTOR_B = 255;
+const int SWITCH_PIN = 10;
+const int LIMIT_SWITCH_PIN = 11;
+const int MOTORB_PIN = 7;
+const int DIRECTION_MOTORB_PIN = 6;
 
 int switchState = LOW;
 int previousSwitchState = LOW;
