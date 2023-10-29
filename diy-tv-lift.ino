@@ -1,13 +1,13 @@
 #define SIMULATOR
 #define DEBUG
 
-const long intervalMotorB = 10000;
+const long INTERVAL_MOTORB = 10000;
 
 const int DEFAULT_SPEED_MOTOR_B = 255;
-const int switchPin = 10;
-const int fcPin = 11;
-const int motorBPin = 7;
-const int directionMotorBPin = 6;
+const int SWITCH_PIN = 10;
+const int LIMIT_SWITCH_PIN = 11;
+const int MOTORB_PIN = 7;
+const int DIRECTION_MOTORB_PIN = 6;
 
 int switchState = LOW;
 int previousSwitchState = LOW;
@@ -29,13 +29,13 @@ void initValues()
     currentMillis = 0;
     previousMillisForMotorB = 0;
 
-    digitalWrite(directionMotorBPin, directionMotorBState);
+    digitalWrite(DIRECTION_MOTORB_PIN, directionMotorBState);
 }
 
 void setup()
 {
-    pinMode(fcPin, INPUT);
-    pinMode(switchPin, INPUT);
+    pinMode(LIMIT_SWITCH_PIN, INPUT);
+    pinMode(SWITCH_PIN, INPUT);
 
     initValues();
 #ifdef DEBUG
@@ -47,9 +47,9 @@ void setup()
 
 void loop()
 {
-    fcState = digitalRead(fcPin);
+    fcState = digitalRead(LIMIT_SWITCH_PIN);
     previousSwitchState = switchState;
-    switchState = digitalRead(switchPin);
+    switchState = digitalRead(SWITCH_PIN);
 
     currentMillis = millis();
 
@@ -111,7 +111,7 @@ void loop()
                     directionMotorBState = LOW;
                     rotateMotorB();
                 }
-                else if ((currentMillis - previousMillisForMotorB) >= intervalMotorB) // Tv lift is openned, stop the motor
+                else if ((currentMillis - previousMillisForMotorB) >= INTERVAL_MOTORB) // Tv lift is openned, stop the motor
                 {
                     stopMotorB();
                     isReadyToWork = false;
@@ -135,8 +135,8 @@ void rotateMotorB()
         Serial.print("\n");
 #endif
         motorBSpeed = DEFAULT_SPEED_MOTOR_B;
-        digitalWrite(directionMotorBPin, directionMotorBState);
-        analogWrite(motorBPin, motorBSpeed); // PWM Speed Control
+        digitalWrite(DIRECTION_MOTORB_PIN, directionMotorBState);
+        analogWrite(MOTORB_PIN, motorBSpeed); // PWM Speed Control
     }
 }
 
@@ -145,7 +145,7 @@ void stopMotorB()
     if (isMotorBWorking())
     {
         motorBSpeed = 0;
-        analogWrite(motorBPin, 0); // PWM Speed Control
+        analogWrite(MOTORB_PIN, 0); // PWM Speed Control
 
 #ifdef DEBUG
         Serial.println("Motor B stop");
