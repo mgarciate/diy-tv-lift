@@ -1,13 +1,14 @@
 #define SIMULATOR
 #define DEBUG
 
-const long INTERVAL_MOTORB = 10000;
+const long INTERVAL_MOTORB = 4000;
 
 const int DEFAULT_SPEED_MOTOR_B = 255;
+const int DEFAULT_SPEED_OPEN_MOTOR_B = 100;
 const int SWITCH_PIN = 10;
 const int LIMIT_SWITCH_PIN = 11;
-const int MOTORB_PIN = 7;
-const int DIRECTION_MOTORB_PIN = 6;
+const int MOTORB_PIN = 6;
+const int DIRECTION_MOTORB_PIN = 7;
 
 int switchState = LOW;
 int previousSwitchState = LOW;
@@ -48,11 +49,18 @@ void setup()
 void loop()
 {
     fcState = digitalRead(LIMIT_SWITCH_PIN);
+    if (fcState == LOW)
+    {
+        fcState = HIGH;
+    }
+    else
+    {
+        fcState = LOW;
+    }
     previousSwitchState = switchState;
     switchState = digitalRead(SWITCH_PIN);
 
     currentMillis = millis();
-
 
     if (isBooting) // Tv lift must go to the initial position
     {
@@ -63,7 +71,9 @@ void loop()
         }
         else // Tv lift is closed, stop the motor
         {
+            delay(300);
             stopMotorB();
+
             isBooting = false;
             isReadyToWork = true;
             working = true;
@@ -88,7 +98,7 @@ void loop()
             Serial.print("\n");
 #endif
         }
-        else if (switchState == LOW) 
+        else if (switchState == LOW)
         {
             if (fcState == HIGH) // Tv lift is closed, stop the motor
             {
@@ -134,7 +144,7 @@ void rotateMotorB()
         Serial.print(directionMotorBState);
         Serial.print("\n");
 #endif
-        motorBSpeed = DEFAULT_SPEED_MOTOR_B;
+        motorBSpeed = (directionMotorBState == HIGH) ? DEFAULT_SPEED_MOTOR_B : DEFAULT_SPEED_OPEN_MOTOR_B;
         digitalWrite(DIRECTION_MOTORB_PIN, directionMotorBState);
         analogWrite(MOTORB_PIN, motorBSpeed); // PWM Speed Control
     }
