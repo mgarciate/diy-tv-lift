@@ -9,8 +9,8 @@ Using an Arduino UNO, activate a servo motor via a switch to raise/lower a TV. T
 - 1x servo motor
 
 ## PINs
-- **6** -> Motor direction
-- **7** -> Motor speed
+- **6** -> Motor speed
+- **7** -> Motor direction
 - **10** -> Switch
 - **11** -> Limit switch
 
